@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/planets" method="POST">
+        <label for="name">Planet Name:</label>
+        <input type="text" name="name" required>
+        <label for="radius">Radius:</label>
+        <input type="text" name="radius">
+        <label for="hasRings">Has Rings:</label>
+        <input type="checkbox" name="hasRings">
+        <label for="orbitalPeriod">Orbital Period:</label>
+        <input type="number" name="orbitalPeriod">
+        <input type="submit" value="create">
+    </form>
+</body>
+</html>

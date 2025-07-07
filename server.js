@@ -25,14 +25,27 @@ app.get('/planets', async (req, res) => {
 })
 
 //New planet form
-app.get('/planets/new', (req, res) => {
+app.post('/planets/new', (req, res) => {
     res.render('new')
 })
 
 //Create a new planet
-app.post('/planets', (req, res) =>{
+app.get('/planets', (req, res) =>{
     // const newPlanet = new models.Planet
     console.log(req.body)
+    res.redirect('/planets')
+})
+
+app.post('/planets', async (req, res) => {
+    const hasRings = req.body.hasRings === 'on'
+    const newPlanet = new Planet({
+        name: req.body.name,
+        radius: req.body.radius,
+        hasRings: hasRings,
+        orbitalPeriod: req.body.orbitalPeriod
+        
+    })
+    await newPlanet.save()
     res.redirect('/planets')
 })
 

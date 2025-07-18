@@ -21,21 +21,29 @@ app.get('/', (req, res) => {
 
 app.get('/planets', async (req, res) => {
     const planets = await Planet.find()
-    res.render('index', {planets})
+    res.render('planets/index', {planets})
 })
 
 //New planet form
-app.post('/planets/new', (req, res) => {
+
+//Create a new planet
+app.get('/planets/new', (req, res) => {
     res.render('new')
 })
 
-//Create a new planet
-app.get('/planets', (req, res) =>{
-    // const newPlanet = new models.Planet
-    console.log(req.body)
-    res.redirect('/planets')
+app.get('/planets/:id', async (req, res) => {
+    const planet = await Planet.findById(req.params.id)
+    res.render("planets/show", { planet })
 })
-
+app.get('/planets/:id/edit', async (req, res) =>{
+    const planet = await Planet.findById(req.params.id)
+    res.render('planets/edit', { planet })
+})
+app.put('/planets/:id', async (req, res) => {
+    req.body.hasRings = req.body.hasRings === 'on'
+    await Planet.findByIdAndUpdate(req.params.id, req.body)
+    res.redirect(`/planets/${req.params.id}`)
+})
 app.post('/planets', async (req, res) => {
     const hasRings = req.body.hasRings === 'on'
     const newPlanet = new Planet({
@@ -47,6 +55,10 @@ app.post('/planets', async (req, res) => {
     })
     await newPlanet.save()
     res.redirect('/planets')
+})
+app.delete('/planets/:id', async (req, res) => {
+    await Planet.findByIdAndDelete(req.params.id)
+    res.redirect("/planets")
 })
 
 app.listen(3000, () => {
